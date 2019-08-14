@@ -22,7 +22,10 @@
   "contributors": [
     "TalhaMustafaDabang <talhamustafa9999@gmail.com> ()"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^1.19.1"
+  },
   "devDependencies": {
     "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "latest",
@@ -37,7 +40,7 @@
     "husky": "latest",
     "lint-staged": "latest",
     "nyc": "latest",
-    "prettier": "latest",
+    "prettier": "^1.18.2",
     "remark-cli": "latest",
     "remark-preset-github": "latest",
     "xo": "latest"
@@ -95,7 +98,8 @@
     "lint": "xo && remark . -qfo",
     "nyc": "cross-env NODE_ENV=test nyc ava",
     "test": "npm run lint && npm run ava",
-    "test-coverage": "npm run lint && npm run nyc"
+    "test-coverage": "npm run lint && npm run nyc",
+    "start": "nodemon server.js"
   },
   "xo": {
     "prettier": true,
