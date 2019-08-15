@@ -2,29 +2,31 @@ const firebaseApp = require('firebase');
 const firebaseAdminSdk = require('firebase-admin');
 
 async function routes(fastify, options) {
-  fastify.post('/addPersonalTask',checkAuth, async (request, reply) => {
-    userId = await firebaseAdminSdk.auth().verifyIdToken(request.headers.token);
-    userId = userId.uid;
-    let todoObj = {
-      task: request.body.task,
-      status: request.body.status,
-      uid: userId
-    };
+  fastify.post('/addPersonalTask', async (request, reply) => {
+      userId = await firebaseAdminSdk.auth().verifyIdToken(request.headers.token);
+      userId = userId.uid;
+      let todoObj = {
+        task: request.body.task,
+        status: request.body.status,
+        uid: userId
+      };
 
-    return new Promise((res, rej) => {
-      firebaseApp
-        .app()
-        .firestore()
-        .collection('PersonalTasks')
-        .add(todoObj)
-        .then(data => {
-          return res({ message: 'added successfully' });
-        })
-        .catch(e => {
-          return rej(e);
-        });
-    });
-  }),
+      return new Promise((res, rej) => {
+        firebaseApp
+          .app()
+          .firestore()
+          .collection('PersonalTasks')
+          .add(todoObj)
+          .then(data => {
+            return res({
+              message: 'added successfully'
+            });
+          })
+          .catch(e => {
+            return rej(e);
+          });
+      });
+    }),
     fastify.get('/getAllPersonalTasks', async (request, reply) => {
       userId = await firebaseAdminSdk
         .auth()
@@ -43,7 +45,9 @@ async function routes(fastify, options) {
               docs.push(e.data());
             });
             console.log(docs);
-            return res({ docs: docs });
+            return res({
+              docs: docs
+            });
           })
           .catch(e => {
             return rej(e);
