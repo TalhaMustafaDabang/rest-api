@@ -24,6 +24,11 @@ async function routes(fastify, options) {
             request.body.password
           )
           .then(response => {
+            firebaseApp.app().firestore().collection('users').doc(response.user.uid).add({
+              'email': response.user.email,
+              'uid': response.user.uid,
+              'fcmToken': 'abcdefgh',
+            });
             return res(response);
           })
           .catch(e => {

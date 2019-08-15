@@ -2,7 +2,7 @@ const firebaseApp = require('firebase');
 const firebaseAdminSdk = require('firebase-admin');
 
 async function routes(fastify, options) {
-  fastify.post('/addPersonalTask',checkAuth, async (request, reply) => {
+  fastify.post('/addPersonalTask', async (request, reply) => {
     userId = await firebaseAdminSdk.auth().verifyIdToken(request.headers.token);
     userId = userId.uid;
     let todoObj = {
