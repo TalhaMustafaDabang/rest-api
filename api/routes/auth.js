@@ -10,54 +10,66 @@ const firebaseApp = require('firebase');
 // })
 // import {firebaseApp} from "../../server";
 // let firebaseApp = require('../../server');
-async function routes (fastify, options) {
-    fastify.get('/', async (request, reply) => {
-      return { hello: 'world' }
-    }),
-    fastify.post('/signup', async(request,reply)=>{
-    return new Promise((res,rej)=>{
-
-        firebaseApp.auth().createUserWithEmailAndPassword(request.body.email,request.body.password).then((response)=>{
-        return res(response);
-    })
-    .catch(e=>{
-        return rej(e);
-    })
-    })
-    }),
-    fastify.post('/login',async(request,reply)=>{
-        return new Promise((res,rej)=>{   
-            firebaseApp.auth().signInWithEmailAndPassword(request.body.email,request.body.password)
-            .then(response=>{
-                res(response);
-            })
-            .catch(e=>{
-                rej(e);
-            })
-        })})
-
-    fastify.post('/resetPassword',async(request,reply)=>{
-        return new Promise((res,rej)=>{
-        firebaseApp.auth().sendPasswordResetEmail(request.body.email).then((response)=>{
+async function routes(fastify, options) {
+  fastify.get('/', async (request, reply) => {
+    return { hello: 'world' };
+  }),
+    fastify.post('/signup', async (request, reply) => {
+      return new Promise((res, rej) => {
+        firebaseApp
+          .auth()
+          .createUserWithEmailAndPassword(
+            request.body.email,
+            request.body.password
+          )
+          .then(response => {
             return res(response);
-        })
-        .catch(e=>{
-            return rej(e)
-        })
-            
-        })
+          })
+          .catch(e => {
+            return rej(e);
+          });
+      });
     }),
+    fastify.post('/login', async (request, reply) => {
+      return new Promise((res, rej) => {
+        firebaseApp
+          .auth()
+          .signInWithEmailAndPassword(request.body.email, request.body.password)
+          .then(response => {
+            res(response);
+          })
+          .catch(e => {
+            rej(e);
+          });
+      });
+    });
 
-    fastify.post('/confirmResetPassword',async(request,reply)=>{
-        return new Promise((res,rej)=>{
-            firebaseApp.auth().confirmPasswordReset(request.headers.code,request.body.password).then((response)=>{
-                return res(response);
-            })
-            .catch(e=>{
-                return rej(e)
-            })
+  fastify.post('/resetPassword', async (request, reply) => {
+    return new Promise((res, rej) => {
+      firebaseApp
+        .auth()
+        .sendPasswordResetEmail(request.body.email)
+        .then(response => {
+          return res(response);
         })
-    })
-  }
-  
-  module.exports = routes
+        .catch(e => {
+          return rej(e);
+        });
+    });
+  }),
+    fastify.post('/confirmResetPassword', async (request, reply) => {
+      return new Promise((res, rej) => {
+        firebaseApp
+          .auth()
+          .confirmPasswordReset(request.headers.code, request.body.password)
+          .then(response => {
+            return res(response);
+          })
+          .catch(e => {
+            return rej(e);
+          });
+      });
+    });
+}
+
+module.exports = routes;
