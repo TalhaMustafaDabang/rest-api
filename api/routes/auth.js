@@ -10,6 +10,7 @@ const firebaseApp = require('firebase');
 // })
 // import {firebaseApp} from "../../server";
 // let firebaseApp = require('../../server');
+const checkAuth = require('../middlewares/checkAuth');
 async function routes(fastify, options) {
   fastify.get('/', async (request, reply) => {
     return { hello: 'world' };
