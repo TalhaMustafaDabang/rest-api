@@ -13,8 +13,10 @@ const firebaseApp = require('firebase');
 const checkAuth = require('../middlewares/checkAuth');
 async function routes(fastify, options) {
   fastify.get('/', async (request, reply) => {
-    return { hello: 'world' };
-  }),
+      return {
+        hello: 'world'
+      };
+    }),
     fastify.post('/signup', async (request, reply) => {
       return new Promise((res, rej) => {
         firebaseApp
@@ -51,18 +53,18 @@ async function routes(fastify, options) {
     });
 
   fastify.post('/resetPassword', async (request, reply) => {
-    return new Promise((res, rej) => {
-      firebaseApp
-        .auth()
-        .sendPasswordResetEmail(request.body.email)
-        .then(response => {
-          return res(response);
-        })
-        .catch(e => {
-          return rej(e);
-        });
-    });
-  }),
+      return new Promise((res, rej) => {
+        firebaseApp
+          .auth()
+          .sendPasswordResetEmail(request.body.email)
+          .then(response => {
+            return res(response);
+          })
+          .catch(e => {
+            return rej(e);
+          });
+      });
+    }),
     fastify.post('/confirmResetPassword', async (request, reply) => {
       return new Promise((res, rej) => {
         firebaseApp
